@@ -14,7 +14,7 @@ import { matchNameManually } from '@/handlers/manualHandler';
  */
 export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
   try {
-    const { name = '', isAi = '' } = event.queryStringParameters || {};
+    const { name = '', isManual = '' } = event.queryStringParameters || {};
 
     const trimmedName = name.trim();
 
@@ -39,14 +39,14 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
     }
 
     let result = {};
-    let type = 'manual';
-    if (isAi === 'true') {
-      // AI match mode
-      type = 'AI';
-      result = await matchNameViaAi(trimmedName);
-    } else {
+    let type = 'AI';
+    if (isManual === 'true') {
       // Manual match mode by codes
+      type = 'manual';
       result = matchNameManually(trimmedName, NAME_LIST);
+    } else {
+      // AI match mode
+      result = await matchNameViaAi(trimmedName);
     }
 
     return {
