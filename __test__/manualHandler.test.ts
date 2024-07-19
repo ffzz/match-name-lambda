@@ -1,5 +1,10 @@
 import { NAME_LIST } from '@/constant/nameList';
-import { matchChineseName, matchEnglishName, matchMixedInputName } from '@/handlers/manualHandler';
+import {
+  matchChineseName,
+  matchEnglishName,
+  matchMixedInputName,
+  matchNameCharater,
+} from '@/handlers/manualHandler';
 
 describe('matchChineseName Function', () => {
   it('should return the best match and ratio for a perfect match', () => {
@@ -176,5 +181,63 @@ describe('matchNameManually Function', () => {
     const result = matchNameManually(inputName, presetNameList);
     expect(result.bestMatchName).toEqual('');
     expect(result.message).toBe('No match found.');
+  });
+
+  it('should return the best match and ratio for a partial match', () => {
+    const inputName = '吴';
+
+    const result = matchChineseName(inputName, NAME_LIST);
+
+    expect(result.bestMatch).toEqual(['Huawen Wu 华文吴']);
+    expect(result.bestRatio).toBeGreaterThan(0);
+    expect(result.bestRatio).toBeLessThan(0.5);
+  });
+
+  it('should return the best match and ratio for a poor match', () => {
+    const inputName = '吴华';
+
+    const result = matchChineseName(inputName, NAME_LIST);
+
+    expect(result.bestMatch).toEqual(['Huawen Wu 华文吴']);
+    expect(result.bestRatio).toBeGreaterThan(0);
+    expect(result.bestRatio).toBeLessThan(0.5);
+  });
+});
+
+describe('matchNameCharater', () => {
+  it('should return correct ratio when inputString matches characters in presetString', () => {
+    const inputString = '华文吴';
+    const presetString = '华文吴';
+    expect(matchNameCharater(inputString, presetString)).toBeCloseTo(0.7);
+  });
+
+  it('should return correct ratio when inputString partially matches characters in presetString', () => {
+    const inputString = '吴华';
+    const presetString = '华文吴';
+    expect(matchNameCharater(inputString, presetString)).toBeCloseTo(0.3667, 1);
+  });
+
+  it('should return 0 when no characters in inputString match presetString', () => {
+    const inputString = 'abc';
+    const presetString = '华文吴';
+    expect(matchNameCharater(inputString, presetString)).toBe(0);
+  });
+
+  it('should return correct ratio when inputString contains characters not in presetString', () => {
+    const inputString = '吴abc';
+    const presetString = '华文吴';
+    expect(matchNameCharater(inputString, presetString)).toBeCloseTo(0.33333, 1);
+  });
+
+  it('should not reduce ratio by 0.3 if the initial ratio is less than 0.5', () => {
+    const inputString = '吴';
+    const presetString = '华文吴';
+    expect(matchNameCharater(inputString, presetString)).toBeCloseTo(0.3333, 1);
+  });
+
+  it('should handle empty inputString', () => {
+    const inputString = '';
+    const presetString = '华文吴';
+    expect(matchNameCharater(inputString, presetString)).toBe(0);
   });
 });
