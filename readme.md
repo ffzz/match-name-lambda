@@ -21,7 +21,7 @@ A sophisticated AWS Lambda-deployable project for matching English and Chinese n
 
 ## 🚀 Introduction
 
-This project offers a powerful API for matching English and Chinese names, deployable on AWS Lambda. Users can query names via GET request parameters, and the service returns fully matched names. The innovative aspect lies in its optional use of OpenAI's capabilities for enhanced name matching, including abbreviations and traditional/simplified Chinese character variants.
+This project offers a powerful API for matching English and Chinese names, deployable on AWS Lambda. Users can query names via GET request parameters, and the service returns fully matched names. The innovative aspect lies in its default use of OpenAI's capabilities for enhanced name matching, including abbreviations and traditional/simplified Chinese character variants.
 
 ## 🔑 Key Features
 
@@ -47,17 +47,20 @@ Experience the API live on AWS Lambda:
 
 **Endpoint**: `https://myr3z4n0w7.execute-api.ap-southeast-2.amazonaws.com/Dev/name`
 
+**AI Model**: `GPT-4o`
+
 **Requirements**:
 
 - Valid API Key in the request header
 - Query Parameters:
-  - `name` (required): The name to match
-  - `isAi` (optional): Set to "true" for AI-powered matching (default: function matching)
+  - `name` (required): The name to match (default: AI matching)
+  - `isManual` (optional): Set to "true" for code-based manual matching
 
 ### PostMan Testing
 
 ![PostMan Parameters](screenshots/postman-params.png)
 ![PostMan API Key](screenshots/postman-api-key.png)
+![manual match](screenshots/manual.png)
 
 ## 📋 Predefined Name List
 
@@ -97,7 +100,7 @@ The current version can only match against the following predefined names:
 3. Configure OpenAI API Key:
    Create a `.env` file in the root directory and add your OpenAI API key:
    ```
-   OPENAI_API_KEY=sk-YourOpenAIKeyHere
+   OPENAI_API_KEY=sk-Your-OpenAI-Key-Here
    ```
 
 ## 🧪 Local Testing
