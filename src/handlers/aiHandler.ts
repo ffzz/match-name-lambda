@@ -1,5 +1,5 @@
-import { PROMPT } from '../constant/promtForAI';
-import { NameMatchResponse } from '../types/reponseType';
+import { PROMPT } from '@/constant/promtForAI';
+import { NameMatchResponse } from '@/types/reponseType';
 import CustomError from '@/customError/CustomErrorClass';
 import { getOpenAIClient } from '@/utils/getOpenAiClient';
 

@@ -1,4 +1,3 @@
-// import { NAME_LIST } from '@/constant/nameList';
 import { MatchResult, NameMatchResponse } from '@/types/reponseType';
 import { extractChinese, extractEnglish, isChineseOnly, isEnglishOnly, splitName } from '@/utils';
 

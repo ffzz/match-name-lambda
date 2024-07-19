@@ -12,11 +12,11 @@ let instance: OpenAI | null = null;
  *
  * @return {OpenAI} The singleton instance of the OpenAI client.
  */
-export function getOpenAIClient(): OpenAI {
+export const getOpenAIClient = (): OpenAI => {
   if (!instance) {
     instance = new OpenAI({
       apiKey: process.env.OPEN_AI_KEY,
     });
   }
   return instance;
-}
+};
